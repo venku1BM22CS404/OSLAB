@@ -1,176 +1,223 @@
-#include<stdio.h>
-void sop(int n, int mat1[n][n]){
-    int sump=0, sumnp=0, i, j, k;
-    for(i=0;i<n;i++){
-        for(j=0;j<n;j++){
-            if(j==i){
-                sump+=mat1[i][j];
+#include <stdio.h>
+
+#define MAX_SIZE 100
+
+// Function to input a matrix
+void inputMatrix(int matrix[MAX_SIZE][MAX_SIZE], int rows, int cols) {
+    printf("Enter the elements of the matrix:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            scanf("%d", &matrix[i][j]);
+        }
+    }
+}
+
+// Function to print a matrix
+void printMatrix(int matrix[MAX_SIZE][MAX_SIZE], int rows, int cols) {
+    printf("Matrix:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%d ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// Function to add two matrices
+void addMatrices(int matrix1[MAX_SIZE][MAX_SIZE], int matrix2[MAX_SIZE][MAX_SIZE], int rows, int cols) {
+    int result[MAX_SIZE][MAX_SIZE];
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[i][j] = matrix1[i][j] + matrix2[i][j];
+        }
+    }
+    printf("Addition of matrices:\n");
+    printMatrix(result, rows, cols);
+}
+
+// Function to subtract two matrices
+void subtractMatrices(int matrix1[MAX_SIZE][MAX_SIZE], int matrix2[MAX_SIZE][MAX_SIZE], int rows, int cols) {
+    int result[MAX_SIZE][MAX_SIZE];
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[i][j] = matrix1[i][j] - matrix2[i][j];
+        }
+    }
+    printf("Subtraction of matrices:\n");
+    printMatrix(result, rows, cols);
+}
+
+// Function to multiply two matrices
+void multiplyMatrices(int matrix1[MAX_SIZE][MAX_SIZE], int rows1, int cols1, int matrix2[MAX_SIZE][MAX_SIZE], int rows2, int cols2) {
+    if (cols1 != rows2) {
+        printf("Error: Matrices cannot be multiplied.\n");
+        return;
+    }
+
+    int result[MAX_SIZE][MAX_SIZE];
+    for (int i = 0; i < rows1; i++) {
+        for (int j = 0; j < cols2; j++) {
+            result[i][j] = 0;
+            for (int k = 0; k < cols1; k++) {
+                result[i][j] += matrix1[i][k] * matrix2[k][j];
             }
         }
     }
-    for(i=0;i<n;i++){
-        for(j=0;j<n;j++){
-            if(j==i){
-                sumnp+=mat1[i][n-1-i];
+    printf("Multiplication of matrices:\n");
+    printMatrix(result, rows1, cols2);
+}
+
+// Function to calculate the sum of diagonal or non-diagonal elements in a matrix
+void sumDiagonalNonDiagonal(int matrix[MAX_SIZE][MAX_SIZE], int rows, int cols, char choice) {
+    int sum = 0;
+    if (choice == 'D' || choice == 'd') {
+        for (int i = 0; i < rows; i++) {
+            sum += matrix[i][i];
+        }
+        printf("Sum of diagonal elements: %d\n", sum);
+    } else if (choice == 'N' || choice == 'n') {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (i != j) {
+                    sum += matrix[i][j];
+                }
             }
         }
-    }
-    printf("sum of principle diagonal is %d\n sum of non principle diagonal is %d\n",sump,sumnp);
-}
-void main(){
-    int m,n,choice,i,j;
-    printf("Enter the values of n for nxn and matrix\n");
-    scanf("%d",&n);
-    int mat1[n][n];
-    int mat2[n][n];
-    //int mat3[n+1][n+1];
-    printf("Enter the values for matrix 1\n");
-    for(i = 0;i<n;i++){
-        for(j=0;j<n;j++){
-           scanf("%d",&mat1[i][j]);
-        }
-    }
-    printf("Enter the values for matrix 2\n");
-    for(i = 0;i<n;i++){
-        for(j=0;j<n;j++){
-           scanf("%d",&mat2[i][j]);
-        }
-    }
-    printf("\nMenu\n1.Addition\n2.Subtraction\n3.Multiplication\n4.Sum of principle and non principle diagonals\n5.Sum of rows and columns\n6.Transpose matrix\n7.Check if the matrix is symmetric\n8.Exit\n\n");
-    while(1){
-        printf("Enter your choice\n");
-        scanf("%d",&choice);
-        switch(choice){
-            case 1: add(n,mat1,mat2);
-            break;
-            case 2:sub(n,mat1,mat2);
-            break;
-            case 3:multiply(n,mat1,mat2);
-            break;
-            case 4: sop(n,mat1);
-            break;
-            case 5: sumrc(n,mat1,mat2);
-            break;
-            case 6: transpose(n,mat1);
-            break;
-            case 7: sym(n,mat1);
-            break;
-            case 8:exit(0);
-            default: printf("Wrong choice\n");
-        }
-    }
-
-}
-
-void add(int n, int mat1[n][n], int mat2[n][n]){
-    int i,j;
-    int sum[n][n];
-    for(i =0; i<n;i++){
-        for(j=0;j<n;j++){
-            sum[i][j]=mat1[i][j]+mat2[i][j];
-        }
-    }
-    for(i =0; i<n;i++){
-        for(j=0;j<n;j++){
-            printf("%d ",sum[i][j]);
-        }
-        printf("\n");
-    }
-}
-void sub(int n, int mat1[n][n], int mat2[n][n]){
-        int i,j;
-    int sum[n][n];
-    for(i =0; i<n;i++){
-        for(j=0;j<n;j++){
-            sum[i][j]=mat1[i][j]-mat2[i][j];
-        }
-    }
-    for(i =0; i<n;i++){
-        for(j=0;j<n;j++){
-            printf("%d ",sum[i][j]);
-        }
-        printf("\n");
+        printf("Sum of non-diagonal elements: %d\n", sum);
+    } else {
+        printf("Invalid choice. Please enter D or N.\n");
     }
 }
 
+// Function to calculate the sum of rows and columns in a matrix
+void sumRowsColumns(int matrix[MAX_SIZE][MAX_SIZE], int rows, int cols) {
+    int rowSum[MAX_SIZE] = {0};
+    int colSum[MAX_SIZE] = {0};
 
-void multiply(int n, int mat1[n][n], int mat2[n][n]){
-    int sum=0,i,j,k;
-    int prod[n][n];
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            prod[i][j] = 0;
-            for (int k = 0; k < n; k++) {
-                prod[i][j] += mat1[i][k] * mat2[k][j];
-            }
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            rowSum[i] += matrix[i][j];
+            colSum[j] += matrix[i][j];
         }
     }
-    for(i =0; i<n;i++){
-        for(j=0;j<n;j++){
-            printf("%d ",prod[i][j]);
-        }
-        printf("\n");
+
+    printf("Sum of rows:\n");
+    for (int i = 0; i < rows; i++) {
+        printf("Row %d: %d\n", i + 1, rowSum[i]);
     }
 
-}
-
-void sumrc(int n, int mat1[n][n]) {
-    int sumr, sumc,i,j;
-    int mat3[n+1][n+2];
-
-
-    for (i = 0; i < n; i++) {
-        sumr = 0;
-        for (j = 0; j < n; j++) {
-            mat3[i][j] = mat1[i][j];
-            sumr += mat1[i][j];
-        }
-        mat3[i][n] = sumr;
-    }
-
-    for (j = 0; j < n; j++) {
-        sumc = 0;
-        for (i = 0; i < n; i++) {
-            sumc += mat1[i][j];
-        }
-        mat3[n][j] = sumc;
-    }
-    mat3[n][n]=0;
-    for (int i = 0; i < n+1; i++) {
-        for (int j = 0; j < n+1; j++) {
-            printf("%d ", mat3[i][j]);
-        }
-        printf("\n");
+    printf("Sum of columns:\n");
+    for (int j = 0; j < cols; j++) {
+        printf("Column %d: %d\n", j + 1, colSum[j]);
     }
 }
 
-void transpose(int n, int mat1[n][n]) {
-    int transpose[n][n];
-
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            transpose[j][i] = mat1[i][j];
+// Function to transpose a matrix
+void transposeMatrix(int matrix[MAX_SIZE][MAX_SIZE], int rows, int cols) {
+    int transposed[MAX_SIZE][MAX_SIZE];
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            transposed[j][i] = matrix[i][j];
         }
     }
-
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            printf("%d ", transpose[i][j]);
-        }
-        printf("\n");
-    }
+    printf("Transposed matrix:\n");
+    printMatrix(transposed, cols, rows);
 }
 
-void sym(int n, int mat1[n][n]) {
-    int flag =1;
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            if (mat1[i][j] != mat1[j][i]) {
-                flag = 0;
+// Function to check if a matrix is symmetric
+int isSymmetricMatrix(int matrix[MAX_SIZE][MAX_SIZE], int rows, int cols) {
+    if (rows != cols) {
+        return 0;
+    }
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (matrix[i][j] != matrix[j][i]) {
+                return 0;
             }
         }
     }
 
-    if(flag == 0) printf("not symmetric\n");
-    else printf("Symmetric\n");
+    return 1;
 }
+
+int main() {
+    int choice;
+    printf("Matrix Operations:\n");
+    printf("1. Addition\n");
+    printf("2. Subtraction\n");
+    printf("3. Multiplication\n");
+    printf("4. Sum of diagonal or non-diagonal elements\n");
+    printf("5. Sum of rows and columns\n");
+    printf("6. Transpose of matrix\n");
+    printf("7. Check if matrix is symmetric\n");
+    printf("Enter your choice: ");
+    scanf("%d", &choice);
+
+    int rows, cols;
+    printf("Enter the number of rows in the matrices: ");
+    scanf("%d", &rows);
+    printf("Enter the number of columns in the matrices: ");
+    scanf("%d", &cols);
+
+    int matrix1[MAX_SIZE][MAX_SIZE];
+    int matrix2[MAX_SIZE][MAX_SIZE];
+
+    switch (choice) {
+        case 1:
+            printf("Matrix 1:\n");
+            inputMatrix(matrix1, rows, cols);
+            printf("Matrix 2:\n");
+            inputMatrix(matrix2, rows, cols);
+            addMatrices(matrix1, matrix2, rows, cols);
+            break;
+        case 2:
+            printf("Matrix 1:\n");
+            inputMatrix(matrix1, rows, cols);
+            printf("Matrix 2:\n");
+            inputMatrix(matrix2, rows, cols);
+            subtractMatrices(matrix1, matrix2, rows, cols);
+            break;
+        case 3:
+            printf("Matrix 1:\n");
+            inputMatrix(matrix1, rows, cols);
+            printf("Matrix 2:\n");
+            inputMatrix(matrix2, cols, rows);
+            multiplyMatrices(matrix1, rows, cols, matrix2, cols, rows);
+            break;
+        case 4:
+            printf("Matrix:\n");
+            inputMatrix(matrix1, rows, cols);
+            printf("Enter 'D' for diagonal elements or 'N' for non-diagonal elements: ");
+            char sumChoice;
+            scanf(" %c", &sumChoice);
+            sumDiagonalNonDiagonal(matrix1, rows, cols, sumChoice);
+            break;
+        case 5:
+            printf("Matrix:\n");
+            inputMatrix(matrix1, rows, cols);
+            sumRowsColumns(matrix1, rows, cols);
+            break;
+        case 6:
+            printf("Matrix:\n");
+            inputMatrix(matrix1, rows, cols);
+            transposeMatrix(matrix1, rows, cols);
+            break;
+        case 7:
+            printf("Matrix:\n");
+            inputMatrix(matrix1, rows, cols);
+            if (isSymmetricMatrix(matrix1, rows, cols)) {
+                printf("The matrix is symmetric.\n");
+            } else {
+                printf("The matrix is not symmetric.\n");
+            }
+            break;
+        default:
+            printf("Invalid choice.\n");
+            break;
+    }
+
+    return 0;
+}
+
+
